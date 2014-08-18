@@ -1,0 +1,19 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>QR-Login</title>
+        <link href="{% static 'core/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'core/css/custom.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <div class="wrapper">
+        {% block content %}
+        {% endblock %}
+        </div>
+
+        <script src="{% static 'core/js/jquery-1.11.1.min.js' %}"></script>
+        <script src="{% static 'core/js/bootstrap.min.js' %}"></script>
+    </body>
+</html>
