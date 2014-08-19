@@ -7,7 +7,7 @@ import qrcode
 from django.shortcuts import render
 
 
-def index(request):
+def login(request):
     # Generate the nonce
     # TODO: Work on the entropy and size of the nonce
     token = sha1(urandom(128)).hexdigest()
@@ -23,4 +23,4 @@ def index(request):
 
     context = {'token': token, 'qrcode': data}
 
-    return render(request, 'core/index.html', context)
+    return render(request, 'core/login.html', context)
