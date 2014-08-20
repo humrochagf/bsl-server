@@ -24,3 +24,9 @@ def login(request):
     context = {'token': token, 'qrcode': data}
 
     return render(request, 'core/login.html', context)
+
+def barcode_login(request, token):
+    # TODO: barcode_login
+    context = {'token': token}
+
+    return render(request, 'core/barcode_login.html', context)
