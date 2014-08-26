@@ -1,27 +1,12 @@
-from base64 import b64encode
-from hashlib import sha1
-from io import BytesIO
-from os import urandom
-
-import qrcode
 from django.shortcuts import render
+
+from bsl.core.utils import generate_token, make_qrcode_base64
 
 
 def login(request):
-    # Generate the nonce
-    # TODO: Work on the entropy and size of the nonce
-    token = sha1(urandom(128)).hexdigest()
+    token = generate_token()
 
-    # Create a temporary placeholder to the image
-    stream = BytesIO()
-
-    # Generate the qrcode and save to the stream
-    qrcode.make(token).save(stream)
-
-    # Get the image bytes, then encode to base64
-    data = b64encode(stream.getvalue())
-
-    context = {'token': token, 'qrcode': data}
+    context = {'token': token, 'qrcode': make_qrcode_base64(token)}
 
     return render(request, 'core/login.html', context)
 
