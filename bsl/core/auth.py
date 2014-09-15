@@ -1,4 +1,4 @@
-from models import *
+from bsl.core.models import Usuario
 
 def is_logged(cookie):
     user = Usuario.objects.filter(auth=cookie)

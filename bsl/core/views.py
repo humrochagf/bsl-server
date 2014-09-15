@@ -9,8 +9,8 @@ from django.shortcuts import render
 # --- Done now
 from django.http import HttpResponse
 from django.http import Http404
-import auth
-from models import *
+from bsl.core import auth
+from bsl.core.models import Usuario
 # ---
 
 def login(request):
