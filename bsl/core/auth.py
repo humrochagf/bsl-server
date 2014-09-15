@@ -1,20 +1,24 @@
-from bsl.core.models import Usuario
+from bsl.core.models import User
+
 
 def is_logged(cookie):
-    user = Usuario.objects.filter(auth=cookie)
+    user = User.objects.filter(token=cookie)
 
-    if len(user) > 0 and len(user) < 2:
+    if len(user) == 1:
         return True
 
     return False
 
+
 def get_logged_user(cookie):
-    return Usuario.objects.filter(auth=cookie)[0]
+    return User.objects.filter(token=cookie)[0]
+
 
 def authenticate(user, cookie):
-    user.auth = cookie
+    user.token = cookie
     user.save()
 
+
 def invalidate(user):
-    user.auth = ''
+    user.token = ''
     user.save()
