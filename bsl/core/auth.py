@@ -7,22 +7,15 @@ from bsl.core.models import User
 
 class CustomUserBackend(ModelBackend):
     def authenticate(self, email=None, password=None, token=None):
-        if email and password and not token:
-            user = super().authenticate(email=email, password=password)
-        elif email and password and token:
-            user = super().authenticate(email=email, password=password)
-            if user:
-                user.token = token
-                user.save()
-        elif not email and not password and token:
+        user = super().authenticate(email=email, password=password)
+
+        if not user and token:
             try:
                 user = User.objects.get(token)
             except ObjectDoesNotExist:
                 user = None
             except MultipleObjectsReturned:
                 user = None
-        else:
-            user = None
 
         return user
 
