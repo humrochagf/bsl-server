@@ -11,6 +11,7 @@ class CustomUserManager(BaseUserManager):
         now = timezone.now()
         if not email:
             raise ValueError('The given email must be set')
+
         email = self.normalize_email(email)
         user = self.model(email=email, first_name=first_name, last_name=last_name,
                           is_staff=is_staff, is_active=True,
@@ -35,7 +36,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('endereço de email'), max_length=254, unique=True)
     first_name = models.CharField(_('nome'), max_length=30, blank=True)
     last_name = models.CharField(_('sobrenome'), max_length=60, blank=True)
-    is_staff = models.BooleanField(_('status de staff'), default=False)
+    is_admin = models.BooleanField(_('status de staff'), default=False)
     is_active = models.BooleanField(_('ativo'), default=True)
     date_joined = models.DateTimeField(_('criado em'), default=timezone.now())
     token = models.CharField(_('token de acesso'), max_length=40, blank=True, null=True)
@@ -55,3 +56,19 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name
+
+    def __str__(self):
+        return self.email
+
+    def has_perm(self, perm, obj=None):
+        # Implementar para permissões adicionais
+        return True
+
+    def has_module_perms(self, app_label):
+        # Implementar para permissões sobre módulos específicos
+        return True
+
+    @property
+    def is_staff(self):
+        # Implementar para níveis diferentes de admins
+        return self.is_admin
