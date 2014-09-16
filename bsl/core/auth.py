@@ -1,24 +1,33 @@
+# -*- coding: utf-8 -*-
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.contrib.auth.backends import ModelBackend
+
 from bsl.core.models import User
 
 
-def is_logged(cookie):
-    user = User.objects.filter(token=cookie)
+class CustomUserBackend(ModelBackend):
+    def authenticate(self, email=None, password=None, token=None):
+        if email and password and not token:
+            user = super().authenticate(email=email, password=password)
+        elif email and password and token:
+            user = super().authenticate(email=email, password=password)
+            if user:
+                user.token = token
+                user.save()
+        elif not email and not password and token:
+            try:
+                user = User.objects.get(token)
+            except ObjectDoesNotExist:
+                user = None
+            except MultipleObjectsReturned:
+                user = None
+        else:
+            user = None
 
-    if len(user) == 1:
-        return True
+        return user
 
-    return False
-
-
-def get_logged_user(cookie):
-    return User.objects.filter(token=cookie)[0]
-
-
-def authenticate(user, cookie):
-    user.token = cookie
-    user.save()
-
-
-def invalidate(user):
-    user.token = ''
-    user.save()
+    def get_user(self, user_id):
+        try:
+            return User.objects.get(pk=user_id)
+        except ObjectDoesNotExist:
+            return None
