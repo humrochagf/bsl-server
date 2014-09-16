@@ -11,7 +11,7 @@ class CustomUserBackend(ModelBackend):
 
         if not user and token:
             try:
-                user = User.objects.get(token)
+                user = User.objects.get(token=token)
             except ObjectDoesNotExist:
                 user = None
             except MultipleObjectsReturned:
