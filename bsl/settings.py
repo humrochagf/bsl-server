@@ -26,6 +26,9 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'core.User'
+
+AUTHENTICATION_BACKENDS = ('bsl.core.auth.CustomUserBackend',)
 
 # Application definition
 

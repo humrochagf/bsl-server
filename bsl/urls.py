@@ -5,6 +5,5 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^', include('bsl.core.urls')),
-
     url(r'^admin/', include(admin.site.urls)),
 )
