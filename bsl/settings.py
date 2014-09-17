@@ -30,6 +30,10 @@ AUTH_USER_MODEL = 'core.User'
 
 AUTHENTICATION_BACKENDS = ('bsl.core.auth.CustomUserBackend',)
 
+LOGIN_URL = '/login/'
+
+LOGOUT_URL = '/logout/'
+
 # Application definition
 
 INSTALLED_APPS = (
