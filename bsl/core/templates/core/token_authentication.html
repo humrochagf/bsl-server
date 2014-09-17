@@ -2,8 +2,9 @@
 
 {% block content %}
 <div class="wrapper">
+    {% if not success %}
     <h1>Autenticação de Token</h1>
-   <form role="form" action="{% url 'token_authentication' %}" method="post">{% csrf_token %}
+    <form role="form" action="{% url 'token_authentication' token %}" method="post">{% csrf_token %}
         <div class="form-group login-box">
             <label for="emailInput">Email</label>
             <input type="text" class="form-control" id="emailInput" name="email" placeholder="email">
@@ -15,8 +16,22 @@
             <input type="text" class="form-control" id="tokenInput" name="token" value="{{ token }}" readonly>
 
             <br>
+
+            {% if error %}
+            <p class="bg-danger">{{ error }}</p>
+            {% endif %}
         </div>
+
+
+
         <button type="submit" class="btn btn-default">Autenticar</button>
     </form>
+    {% else %}
+    <div class="text-center">
+        <br><br><br><br>
+        <span class="glyphicon glyphicon-ok" style="color:green;font-size:100px"></span>
+        <h2>Autenticado</h2>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

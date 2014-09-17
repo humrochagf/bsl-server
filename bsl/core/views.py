@@ -34,32 +34,26 @@ def login(request):
 
 
 def token_authentication(request, url_token=None):
-    if request.method == 'GET' and url_token:
-        context = {'token': url_token}
+    template = 'core/token_authentication.html'
+    context = {'token': url_token,
+               'error': None,
+               'success': False}
 
-        response = render(request, 'core/token_authentication.html', context)
-    elif request.method == 'POST':
+    if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
         token = request.POST.get('token')
 
-        colision = authenticate(token=token)
+        user = authenticate(email=email, password=password)
 
-        if not colision:
-            user = authenticate(email=email, password=password)
-
-            if user:
-                if user.is_active:
-                    user.token = token
-                    user.save()
-                    response = HttpResponse('Token autenticado!')
-                else:
-                    response = HttpResponse('Usuário inativo')
+        if user:
+            if user.is_active:
+                user.token = token
+                user.save()
+                context.update(success=True)
             else:
-                response = HttpResponse('Falha ao autenticar token usuário ou senha incorreto')
+                context.update(error='Usuário inativo')
         else:
-            response = HttpResponse('Falha ao autenticar colisão de token encontrada')
-    else:
-        response = HttpResponseBadRequest()
+            context.update(error='Falha ao autenticar token: usuário ou senha incorreto')
 
-    return response
+    return render(request, template, context)
