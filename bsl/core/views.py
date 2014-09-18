@@ -3,7 +3,7 @@ import django.contrib.auth as auth
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from bsl.core.utils import generate_token, make_qrcode_base64
+from bsl.core.helpers import generate_token, make_qrcode_base64
 
 
 def login(request):
