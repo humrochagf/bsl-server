@@ -7,10 +7,8 @@ from bsl.core.helpers import generate_token, make_qrcode_base64
 
 
 def login(request):
-    token = generate_token()
-
     template = 'core/login.html'
-    context = {'qrcode': make_qrcode_base64(token), 'token': token}
+    context = dict()
 
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -29,6 +27,10 @@ def login(request):
                 context.update(error='Usuário inativo')
         else:
             context.update(error='Não foi possível logar...')
+
+    token = generate_token()
+
+    context.update(qrcode=make_qrcode_base64(token), token=token)
 
     return render(request, template, context)
 
