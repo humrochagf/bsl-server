@@ -34,13 +34,10 @@ class LoginForm(forms.Form):
             return None
 
 
-class TokenAuthForm(LoginForm):
-    def __init__(self, *args, **kwargs):
-        super(LoginForm, self).__init__(self, *args, **kwargs)
-
-        self.email.required = True
-        self.password.required = True
-        self.token.widget = forms.TextInput()
+class TokenAuthForm(forms.Form):
+    email = forms.EmailField(label=_('E-mail'), max_length=254)
+    password = forms.CharField(label=_('Senha'), max_length=32, widget=forms.PasswordInput())
+    token = forms.CharField(max_length=40)
 
     def authenticate(self):
         user = auth.authenticate(email=self.cleaned_data['email'],

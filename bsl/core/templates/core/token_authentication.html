@@ -4,26 +4,10 @@
 <div class="wrapper">
     {% if not success %}
     <h1>Autenticação de Token</h1>
-    <form role="form" action="{% url 'auth_token' token %}" method="post">{% csrf_token %}
-        <div class="form-group login-box">
-            <label for="emailInput">Email</label>
-            <input type="text" class="form-control" id="emailInput" name="email" placeholder="email">
-
-            <label for="passwordInput">Senha</label>
-            <input type="password" class="form-control" id="passwordInput" name="password" placeholder="senha">
-
-            <label for="tokenInput">Token</label>
-            <input type="text" class="form-control" id="tokenInput" name="token" value="{{ token }}" readonly>
-
-            <br>
-
-            {% if error %}
-            <p class="bg-danger">{{ error }}</p>
-            {% endif %}
+    <form role="form" action="{% url 'auth_token' form.token.value %}" method="post">{% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
         </div>
-
-
-
         <button type="submit" class="btn btn-default">Autenticar</button>
     </form>
     {% else %}
