@@ -4,33 +4,29 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from bsl.core.helpers import generate_token, make_qrcode_base64
+from bsl.core.forms import LoginForm
 
 
 def login(request):
+    # BUG: Token not updating correctly
     template = 'core/login.html'
-    context = dict()
-
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        token = request.POST.get('token')
-
-        user = auth.authenticate(email=email, password=password, token=token)
-        
-        if user:
-            user.token = None
-            user.save()
-            if user.is_active:
-                auth.login(request, user)
-                return redirect('/restricted/')
-            else:
-                context.update(error='Usuário inativo')
-        else:
-            context.update(error='Não foi possível logar...')
-
     token = generate_token()
 
-    context.update(qrcode=make_qrcode_base64(token), token=token)
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            user = form.authenticate()
+
+            if user:
+                auth.login(request, user)
+                return redirect('/restricted/')
+
+        form.update_token(token)
+    else:
+        form = LoginForm()
+
+    context = dict(qrcode=make_qrcode_base64(token), form=form)
 
     return render(request, template, context)
 
