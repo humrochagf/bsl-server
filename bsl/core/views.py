@@ -8,7 +8,6 @@ from bsl.core.forms import LoginForm
 
 
 def login(request):
-    # BUG: Token not updating correctly
     template = 'core/login.html'
     token = generate_token()
 
@@ -25,6 +24,7 @@ def login(request):
         form.update_token(token)
     else:
         form = LoginForm()
+        form.fields['token'].initial = token
 
     context = dict(qrcode=make_qrcode_base64(token), form=form)
 

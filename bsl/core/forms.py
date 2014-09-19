@@ -10,7 +10,9 @@ class LoginForm(forms.Form):
     token = forms.CharField(max_length=40, widget=forms.HiddenInput())
 
     def update_token(self, token):
-        self.cleaned_data['token'] = token
+        data = self.data.copy()
+        data['token'] = token
+        self.data = data
 
     def authenticate(self):
         user = auth.authenticate(email=self.cleaned_data['email'],
