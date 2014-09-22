@@ -8,6 +8,10 @@ from bsl.core.helpers import generate_token, make_qrcode_base64
 from bsl.core.forms import LoginForm, TokenAuthForm
 
 
+def index(request):
+    return redirect('/login/')
+
+
 def login(request):
     template = 'core/login.html'
     token = generate_token()
