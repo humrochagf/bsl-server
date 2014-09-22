@@ -56,7 +56,7 @@ def token_authentication(request, url_token=None):
         form = TokenAuthForm()
         form.fields['token'].initial = url_token
 
-    context = dict(success=success, form=form)
+    context = dict(success=success, token=url_token, form=form)
 
     return render(request, template, context)
 
