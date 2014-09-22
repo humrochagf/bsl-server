@@ -26,7 +26,9 @@ def login(request):
         form = LoginForm()
         form.fields['token'].initial = token
 
-    context = dict(qrcode=make_qrcode_base64(token), form=form)
+    auth_token_page = '{0}/{1}'.format(request.build_absolute_uri('auth_token'), token)
+
+    context = dict(qrcode=make_qrcode_base64(auth_token_page), form=form)
 
     return render(request, template, context)
 
