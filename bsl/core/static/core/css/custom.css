@@ -1,11 +1,12 @@
-.wrapper
-{
+.wrapper {
     text-align: center;
+    padding: 0 20px;
 }
 
-.login-box
-{
+.login-box {
     text-align: left;
-    width: 300px;
-    margin: 0 auto;
+}
+
+.qrcode {
+    width: 100%;
 }

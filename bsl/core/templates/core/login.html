@@ -4,7 +4,7 @@
 {% block content %}
 <div class="wrapper">
     <h1>Login</h1>
-    <img src="data:image/png;base64,{{ qrcode }}">
+    <img class="qrcode" src="data:image/png;base64,{{ qrcode }}">
     <form role="form" action="{% url 'login' %}" method="post">{% csrf_token %}
         <div class="form-group login-box">
             {{ form | crispy }}
