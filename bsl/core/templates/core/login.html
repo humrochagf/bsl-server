@@ -1,4 +1,5 @@
 {% extends "core/base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <div class="wrapper">
@@ -6,19 +7,7 @@
     <img src="data:image/png;base64,{{ qrcode }}">
     <form role="form" action="{% url 'login' %}" method="post">{% csrf_token %}
         <div class="form-group login-box">
-            <label for="emailInput">Email</label>
-            <input type="text" class="form-control" id="emailInput" name="email" placeholder="email">
-
-            <label for="passwordInput">Senha</label>
-            <input type="password" class="form-control" id="passwordInput" name="password" placeholder="senha">
-
-            <input type="hidden" class="form-control" id="tokenInput" name="token" value="{{ token }}">
-
-            <br>
-
-            {% if error %}
-            <p class="bg-danger">{{ error }}</p>
-            {% endif %}
+            {{ form | crispy }}
         </div>
         <button type="submit" class="btn btn-default">Logar</button>
     </form>
