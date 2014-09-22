@@ -1,3 +1,5 @@
 .idea/*
+staticfiles/*
 *.sqlite3
 *.pyc
+*.pyo
