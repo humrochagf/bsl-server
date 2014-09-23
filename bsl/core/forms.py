@@ -20,8 +20,6 @@ class LoginForm(forms.Form):
                                  token=self.cleaned_data['token'])
 
         if user:
-            user.token = None
-            user.save()
             if user.is_active:
                 return user
             else:
@@ -45,8 +43,6 @@ class TokenAuthForm(forms.Form):
 
         if user:
             if user.is_active:
-                user.token = self.cleaned_data['token']
-                user.save()
                 return user
             else:
                 # TODO: Transformar em slug

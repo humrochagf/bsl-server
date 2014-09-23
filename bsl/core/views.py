@@ -23,6 +23,8 @@ def login(request):
             user = form.authenticate()
 
             if user:
+                user.token = None
+                user.save()
                 auth.login(request, user)
                 return redirect('/restricted/')
 
