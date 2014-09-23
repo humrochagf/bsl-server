@@ -19,6 +19,8 @@ CSRF_COOKIE_SECURE = True
 
 SESSION_COOKIE_SECURE = True
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 DATABASES = {
     'default': dj_database_url.config()
 }
