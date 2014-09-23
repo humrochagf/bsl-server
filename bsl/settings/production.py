@@ -13,6 +13,8 @@ TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = ['.herokuapp.com']
 
+MIDDLEWARE_CLASSES += ('sslify.middleware.SSLifyMiddleware', )
+
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 CSRF_COOKIE_SECURE = True

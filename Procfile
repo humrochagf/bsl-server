@@ -1,1 +1,1 @@
-web: gunicorn bsl.wsgi -c gunicorn.conf --log-file -
+web: gunicorn bsl.wsgi -c --log-file -
