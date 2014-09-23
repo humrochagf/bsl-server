@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
 import django.contrib.auth as auth
+from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from bsl.core.helpers import generate_token, make_qrcode_base64
 from bsl.core.forms import LoginForm, TokenAuthForm
+
+
+def index(request):
+    return redirect('/login/')
 
 
 def login(request):
@@ -26,7 +31,7 @@ def login(request):
         form = LoginForm()
         form.fields['token'].initial = token
 
-    auth_token_page = '{0}/{1}'.format(request.build_absolute_uri('auth_token'), token)
+    auth_token_page = request.build_absolute_uri(reverse('auth_token', args=(token, )))
 
     context = dict(qrcode=make_qrcode_base64(auth_token_page), form=form)
 
