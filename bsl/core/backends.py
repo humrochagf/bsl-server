@@ -2,7 +2,7 @@
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.contrib.auth.backends import ModelBackend
 
-from bsl.core.models import User
+from .models import User
 
 
 class CustomUserBackend(ModelBackend):
