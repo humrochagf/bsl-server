@@ -6,6 +6,9 @@
     {% if not success %}
     <h1>Autenticação de Token</h1>
     <form role="form" action="{% url 'auth_token' token %}" method="post">{% csrf_token %}
+        {% if error %}
+            <p class="error-message bg-danger text-danger">{{ error }}</p>
+        {% endif %}
         <div class="form-group login-box">
             {{ form | crispy }}
         </div>

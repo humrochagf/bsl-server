@@ -15,18 +15,28 @@ def index(request):
 def login(request):
     template = 'core/login.html'
     token = generate_token()
+    error = None
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
 
         if form.is_valid():
-            user = form.authenticate()
+            user = auth.authenticate(email=form.cleaned_data['email'],
+                                     password=form.cleaned_data['password'],
+                                     token=form.cleaned_data['token'])
 
             if user:
-                user.token = None
-                user.save()
-                auth.login(request, user)
-                return redirect('/restricted/')
+                if user.is_active:
+                    user.token = None
+                    user.save()
+
+                    auth.login(request, user)
+
+                    return redirect('/restricted/')
+                else:
+                    error = 'Erro de autenticação: Usuário inativo.'
+            else:
+                error = 'Erro de autenticação: Credenciais inválidas.'
 
         form.update_token(token)
     else:
@@ -35,7 +45,7 @@ def login(request):
 
     auth_token_page = request.build_absolute_uri(reverse('auth_token', args=(token, )))
 
-    context = dict(qrcode=make_qrcode_base64(auth_token_page), form=form)
+    context = dict(qrcode=make_qrcode_base64(auth_token_page), form=form, error=error)
 
     return render(request, template, context)
 
@@ -50,22 +60,30 @@ def logout(request):
 def token_authentication(request, url_token=None):
     template = 'core/token_authentication.html'
     success = False
+    error = None
 
     if request.method == 'POST':
         form = TokenAuthForm(request.POST)
 
         if form.is_valid():
-            user = form.authenticate()
+            user = auth.authenticate(email=form.cleaned_data['email'],
+                                     password=form.cleaned_data['password'])
 
             if user:
-                user.token = form.cleaned_data['token']
-                user.save()
-                success = True
+                if user.is_active:
+                    user.token = form.cleaned_data['token']
+                    user.save()
+
+                    success = True
+                else:
+                    error = 'Erro ao autenticar token: Usuário inativo.'
+            else:
+                error = 'Erro ao autenticar token: Usuário ou senha incorreto.'
     else:
         form = TokenAuthForm()
         form.fields['token'].initial = url_token
 
-    context = dict(success=success, token=url_token, form=form)
+    context = dict(success=success, token=url_token, form=form, error=error)
 
     return render(request, template, context)
 

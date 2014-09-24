@@ -6,9 +6,13 @@
     <h1>Login</h1>
     <img class="qrcode" src="data:image/png;base64,{{ qrcode }}">
     <form role="form" action="{% url 'login' %}" method="post">{% csrf_token %}
+        {% if error %}
+            <p class="error-message bg-danger text-danger">{{ error }}</p>
+        {% endif %}
         <div class="form-group login-box">
             {{ form | crispy }}
         </div>
+
         <button type="submit" class="btn btn-default">Logar</button>
     </form>
 </div>

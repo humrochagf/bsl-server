@@ -10,3 +10,7 @@
 .qrcode {
     width: 100%;
 }
+
+.error-message  {
+    padding: 10px 0;
+}
