@@ -2,12 +2,12 @@
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.contrib.auth.backends import ModelBackend
 
-from bsl.core.models import User
+from .models import User
 
 
 class CustomUserBackend(ModelBackend):
-    def authenticate(self, email=None, password=None, token=None):
-        user = super().authenticate(email=email, password=password)
+    def authenticate(self, username=None, password=None, token=None):
+        user = super().authenticate(username=username, password=password)
 
         if not user and token:
             try:
@@ -18,9 +18,3 @@ class CustomUserBackend(ModelBackend):
                 user = None
 
         return user
-
-    def get_user(self, user_id):
-        try:
-            return User.objects.get(pk=user_id)
-        except ObjectDoesNotExist:
-            return None

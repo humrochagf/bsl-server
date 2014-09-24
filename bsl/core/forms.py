@@ -4,8 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class LoginForm(forms.Form):
-    email = forms.EmailField(label=_('E-mail'), max_length=254, required=False)
-    password = forms.CharField(label=_('Senha'), max_length=32, widget=forms.PasswordInput(), required=False)
+    username = forms.CharField(label=_('Username'), max_length=30, required=False)
+    password = forms.CharField(label=_('Password'), max_length=128, widget=forms.PasswordInput(), required=False)
     token = forms.CharField(max_length=40, widget=forms.HiddenInput())
 
     def update_token(self, token):
@@ -15,6 +15,6 @@ class LoginForm(forms.Form):
 
 
 class TokenAuthForm(forms.Form):
-    email = forms.EmailField(label=_('E-mail'), max_length=254)
-    password = forms.CharField(label=_('Senha'), max_length=32, widget=forms.PasswordInput())
+    username = forms.CharField(label=_('Username'), max_length=30)
+    password = forms.CharField(label=_('Password'), max_length=128, widget=forms.PasswordInput())
     token = forms.CharField(max_length=40)

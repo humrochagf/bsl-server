@@ -4,8 +4,8 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from bsl.core.helpers import generate_token, make_qrcode_base64
-from bsl.core.forms import LoginForm, TokenAuthForm
+from .helpers import generate_token, make_qrcode_base64
+from .forms import LoginForm, TokenAuthForm
 
 
 def index(request):
@@ -21,7 +21,7 @@ def login(request):
         form = LoginForm(request.POST)
 
         if form.is_valid():
-            user = auth.authenticate(email=form.cleaned_data['email'],
+            user = auth.authenticate(username=form.cleaned_data['username'],
                                      password=form.cleaned_data['password'],
                                      token=form.cleaned_data['token'])
 
@@ -66,7 +66,7 @@ def token_authentication(request, url_token=None):
         form = TokenAuthForm(request.POST)
 
         if form.is_valid():
-            user = auth.authenticate(email=form.cleaned_data['email'],
+            user = auth.authenticate(username=form.cleaned_data['username'],
                                      password=form.cleaned_data['password'])
 
             if user:
