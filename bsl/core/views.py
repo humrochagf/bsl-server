@@ -21,7 +21,7 @@ def login(request):
         form = LoginForm(request.POST)
 
         if form.is_valid():
-            user = auth.authenticate(email=form.cleaned_data['email'],
+            user = auth.authenticate(username=form.cleaned_data['username'],
                                      password=form.cleaned_data['password'],
                                      token=form.cleaned_data['token'])
 
@@ -66,7 +66,7 @@ def token_authentication(request, url_token=None):
         form = TokenAuthForm(request.POST)
 
         if form.is_valid():
-            user = auth.authenticate(email=form.cleaned_data['email'],
+            user = auth.authenticate(username=form.cleaned_data['username'],
                                      password=form.cleaned_data['password'])
 
             if user:

@@ -6,8 +6,8 @@ from bsl.core.models import User
 
 
 class CustomUserBackend(ModelBackend):
-    def authenticate(self, email=None, password=None, token=None):
-        user = super().authenticate(email=email, password=password)
+    def authenticate(self, username=None, password=None, token=None):
+        user = super().authenticate(username=username, password=password)
 
         if not user and token:
             try:
