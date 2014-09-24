@@ -3,7 +3,7 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'core.User'
 
-AUTHENTICATION_BACKENDS = ('bsl.core.auth.CustomUserBackend',)
+AUTHENTICATION_BACKENDS = ('bsl.core.backends.CustomUserBackend',)
 
 LOGIN_URL = '/login/'
 
