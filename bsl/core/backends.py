@@ -12,6 +12,8 @@ class CustomUserBackend(ModelBackend):
         if not user and token:
             try:
                 user = User.objects.get(token=token)
+                if user.get_token_age() > 60:
+                    user = None
             except ObjectDoesNotExist:
                 user = None
             except MultipleObjectsReturned:

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import django.contrib.auth as auth
+from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -72,6 +73,7 @@ def token_authentication(request, url_token=None):
             if user:
                 if user.is_active:
                     user.token = form.cleaned_data['token']
+                    user.last_token_auth = timezone.now()
                     user.save()
 
                     success = True

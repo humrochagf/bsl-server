@@ -8,3 +8,6 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     token = models.CharField(_('access token'), max_length=40, blank=True, null=True)
     last_token_auth = models.DateTimeField(_('last token authentication'), default=timezone.now)
+
+    def get_token_age(self):
+        return (timezone.now() - self.last_token_auth).total_seconds()
